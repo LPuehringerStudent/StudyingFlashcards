@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .input-section h2 {
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-input-wrapper {
+            margin-top: 12px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-right: 8px;
+            margin-top: 12px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 5px 20px rgba(108, 117, 125, 0.4);
+        }
+
+        .error {
+            color: #dc3545;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        /* Flashcard Section */
+        .flashcard-section {
+            display: none;
+        }
+
+        .flashcard-section.active {
+            display: block;
+        }
+
+        .progress {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-content {
+            font-size: 22px;
+            color: #333;
+            line-height: 1.5;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .flashcard-label {
+            position: absolute;
+            top: 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .flashcard-front .flashcard-label {
+            color: #667eea;
+        }
+
+        .flashcard-back .flashcard-label {
+            color: #764ba2;
+        }
+
+        .hint {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-nav {
+            min-width: 120px;
+        }
+
+        .shuffle-info {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Sample data */
+        .sample-data {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .sample-data code {
+            display: block;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            color: #333;
+        }
+
+        @media (max-width: 480px) {
+            .flashcard {
+                height: 250px;
+            }
+            
+            .flashcard-content {
+                font-size: 18px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 Flashcard Trainer</h1>
+    
+    <div class="container">
+        <!-- Input Section -->
+        <div class="input-section" id="inputSection">
+            <h2>Upload or Paste Your Flashcards</h2>
+            <textarea id="jsonInput" placeholder="Paste your JSON flashcards here...">[
+  { "question": "What is the capital of France?", "answer": "Paris" },
+  { "question": "What is 2 + 2?", "answer": "4" },
+  { "question": "Who painted the Mona Lisa?", "answer": "Leonardo da Vinci" }
+]</textarea>
+            <div id="errorMsg" class="error"></div>
+            
+            <div class="file-input-wrapper">
+                <input type="file" id="fileInput" accept=".json,.txt">
+                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">📁 Load from File</button>
+                <button class="btn" onclick="loadFlashcards()">▶️ Start Training</button>
+                <button class="btn btn-secondary" onclick="loadSample()">📝 Load Sample</button>
+            </div>
+
+            <div class="sample-data">
+                <strong>Expected format:</strong>
+                <code>[{"question": "...", "answer": "..."}, ...]</code>
+            </div>
+        </div>
+
+        <!-- Flashcard Section -->
+        <div class="flashcard-section" id="flashcardSection">
+            <div class="progress">
+                Card <span id="currentCard">1</span> of <span id="totalCards">0</span>
+            </div>
+
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-face flashcard-front">
+                        <span class="flashcard-label">Question</span>
+                        <div class="flashcard-content" id="questionText"></div>
+                    </div>
+                    <div class="flashcard-face flashcard-back">
+                        <span class="flashcard-label">Answer</span>
+                        <div class="flashcard-content" id="answerText"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hint">Click card or press Space to flip</div>
+
+            <div class="controls">
+                <button class="btn btn-nav btn-secondary" onclick="previousCard()">◀ Previous</button>
+                <button class="btn btn-nav" onclick="flipCard()">↻ Flip</button>
+                <button class="btn btn-nav" onclick="nextCard()">Next ▶</button>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="shuffleCards()">🔀 Shuffle</button>
+                <button class="btn btn-secondary" onclick="resetToInput()">📝 Edit Cards</button>
+            </div>
+
+            <div class="shuffle-info" id="shuffleInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        let flashcards = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        // File input handler
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('jsonInput').value = e.target.result;
+                document.getElementById('errorMsg').textContent = '';
+            };
+            reader.readAsText(file);
+        });
+
+        function loadSample() {
+            const sample = [
+                { "question": "What is the capital of France?", "answer": "Paris" },
+                { "question": "What is 2 + 2?", "answer": "4" },
+                { "question": "Who painted the Mona Lisa?", "answer": "Leonardo da Vinci" },
+                { "question": "What is the largest planet in our solar system?", "answer": "Jupiter" },
+                { "question": "What year did World War II end?", "answer": "1945" }
+            ];
+            document.getElementById('jsonInput').value = JSON.stringify(sample, null, 2);
+            document.getElementById('errorMsg').textContent = '';
+        }
+
+        function loadFlashcards() {
+            const input = document.getElementById('jsonInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (!input) {
+                errorMsg.textContent = 'Please enter some JSON data.';
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(input);
+                
+                if (!Array.isArray(parsed)) {
+                    throw new Error('Data must be an array of flashcards.');
+                }
+
+                if (parsed.length === 0) {
+                    throw new Error('Flashcard array is empty.');
+                }
+
+                // Validate each flashcard
+                for (let i = 0; i < parsed.length; i++) {
+                    const card = parsed[i];
+                    if (!card.question || !card.answer) {
+                        throw new Error(`Flashcard ${i + 1} is missing "question" or "answer" field.`);
+                    }
+                }
+
+                flashcards = parsed;
+                currentIndex = 0;
+                isFlipped = false;
+                
+                document.getElementById('inputSection').style.display = 'none';
+                document.getElementById('flashcardSection').classList.add('active');
+                
+                updateCard();
+                errorMsg.textContent = '';
+            } catch (e) {
+                errorMsg.textContent = 'Error: ' + e.message;
+            }
+        }
+
+        function updateCard() {
+            const card = flashcards[currentIndex];
+            document.getElementById('questionText').textContent = card.question;
+            document.getElementById('answerText').textContent = card.answer;
+            document.getElementById('currentCard').textContent = currentIndex + 1;
+            document.getElementById('totalCards').textContent = flashcards.length;
+            
+            // Reset flip state
+            isFlipped = false;
+            document.getElementById('flashcard').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateCard();
+            } else {
+                // Loop back to start
+                currentIndex = 0;
+                updateCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            } else {
+                // Loop to end
+                currentIndex = flashcards.length - 1;
+                updateCard();
+            }
+        }
+
+        function shuffleCards() {
+            // Fisher-Yates shuffle
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentIndex = 0;
+            updateCard();
+            
+            const shuffleInfo = document.getElementById('shuffleInfo');
+            shuffleInfo.textContent = 'Cards shuffled!';
+            setTimeout(() => {
+                shuffleInfo.textContent = '';
+            }, 2000);
+        }
+
+        function resetToInput() {
+            document.getElementById('flashcardSection').classList.remove('active');
+            document.getElementById('inputSection').style.display = 'block';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('flashcardSection').classList.contains('active')) {
+                return;
+            }
+
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    flipCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+                case 'ArrowLeft':
+                    previousCard();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
