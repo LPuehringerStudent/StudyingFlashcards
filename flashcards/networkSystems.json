@@ -1,0 +1,522 @@
+[
+  {
+    "question": "What does VLAN stand for?",
+    "answer": "Virtual Local Area Network"
+  },
+  {
+    "question": "On which OSI layer do VLANs operate?",
+    "answer": "Layer 2 (Data Link Layer)"
+  },
+  {
+    "question": "Which IEEE standard defines VLANs?",
+    "answer": "IEEE 802.1q"
+  },
+  {
+    "question": "How many bytes does 802.1q add to an Ethernet frame?",
+    "answer": "4 bytes"
+  },
+  {
+    "question": "What is the size of the VLAN-ID field in bits?",
+    "answer": "12 bits"
+  },
+  {
+    "question": "How many VLAN-IDs are theoretically possible?",
+    "answer": "4096 (0 to 4095)"
+  },
+  {
+    "question": "Which VLAN-IDs are reserved and cannot be used?",
+    "answer": "0 and 4095"
+  },
+  {
+    "question": "What is the default / native VLAN-ID on most switches?",
+    "answer": "VLAN 1"
+  },
+  {
+    "question": "What is the main purpose of a VLAN?",
+    "answer": "Logical segmentation of a physical network into separate broadcast domains without extra hardware"
+  },
+  {
+    "question": "Name 3 use cases for VLANs.",
+    "answer": "1) Guest network isolation, 2) Voice-VLAN for VoIP, 3) Separation of test and production environments"
+  },
+  {
+    "question": "What is a Private-VLAN use case?",
+    "answer": "Each port is its own VLAN so clients cannot communicate directly (e.g., hotel networks, ARP spoofing prevention)"
+  },
+  {
+    "question": "What is a Voice-VLAN?",
+    "answer": "A dedicated VLAN for VoIP traffic, recognized by the switch via MAC address, separating voice from data"
+  },
+  {
+    "question": "What is the difference between an Access Port and a Trunk Port?",
+    "answer": "Access Port = one untagged VLAN for end devices; Trunk Port = multiple tagged VLANs between switches"
+  },
+  {
+    "question": "Can an end device (normal PC) be connected to a Trunk Port?",
+    "answer": "No, trunk ports are for switch-to-switch links (except routers-on-a-stick or hypervisors)"
+  },
+  {
+    "question": "What does 'tagged VLAN' mean?",
+    "answer": "The host itself writes the 802.1q VLAN tag into the frame header; the switch reads it"
+  },
+  {
+    "question": "What does 'port-based VLAN' mean?",
+    "answer": "The switch assigns a VLAN to a port regardless of frame content; the switch adds the tag"
+  },
+  {
+    "question": "What is the Native VLAN on a trunk?",
+    "answer": "The VLAN that is sent untagged over a trunk link (default is VLAN 1)"
+  },
+  {
+    "question": "What is the TPID value in an 802.1q tag?",
+    "answer": "0x8100"
+  },
+  {
+    "question": "What happens if two trunk ports have different Native VLANs?",
+    "answer": "Untagged frames leak into the wrong VLAN (VLAN mismatch)"
+  },
+  {
+    "question": "Write the Cisco command to create VLAN 10 named SALES.",
+    "answer": "vlan 10\\nname SALES"
+  },
+  {
+    "question": "Write the Cisco commands to configure interface fa0/1 as an access port in VLAN 20.",
+    "answer": "interface fa0/1\\nswitchport mode access\\nswitchport access vlan 20\\nno shutdown"
+  },
+  {
+    "question": "Write the Cisco commands to configure interface gi0/1 as a trunk allowing VLANs 10, 20, 30 with native VLAN 99.",
+    "answer": "interface gi0/1\\nswitchport mode trunk\\nswitchport trunk allowed vlan 10,20,30\\nswitchport trunk native vlan 99\\nno shutdown"
+  },
+  {
+    "question": "Which Cisco command shows all VLANs and their assigned ports?",
+    "answer": "show vlan brief"
+  },
+  {
+    "question": "Which Cisco command shows trunk port status?",
+    "answer": "show interfaces trunk"
+  },
+  {
+    "question": "True or False: VLANs operate on Layer 3.",
+    "answer": "False — they operate on Layer 2"
+  },
+  {
+    "question": "True or False: VLAN-ID 4095 is usable for normal networks.",
+    "answer": "False — it is reserved"
+  },
+  {
+    "question": "True or False: 802.1q adds 8 bytes to the Ethernet frame.",
+    "answer": "False — it adds 4 bytes"
+  },
+  {
+    "question": "True or False: VLANs guarantee bandwidth and latency.",
+    "answer": "False — 802.1q offers no bandwidth guarantee"
+  },
+  {
+    "question": "True or False: VLAN separation alone is a strong security barrier.",
+    "answer": "False — it is only a hurdle, not a real obstacle for an attacker"
+  },
+  {
+    "question": "What is the practical limit of configurable VLANs on cheap managed switches?",
+    "answer": "Typically 24 or 256"
+  },
+  {
+    "question": "What is the difference between 'Port Trunking' and a VLAN Trunk on elektronik-kompendium.de?",
+    "answer": "'Port Trunking' = Link Aggregation (LACP/802.3ad); VLAN Trunk = carrying multiple tagged VLANs between switches"
+  },
+  {
+    "question": "What does DHCP stand for?",
+    "answer": "Dynamic Host Configuration Protocol"
+  },
+  {
+    "question": "On which OSI layer does DHCP operate?",
+    "answer": "Application Layer (Layer 7)"
+  },
+  {
+    "question": "Which ports does DHCP use?",
+    "answer": "UDP 67 (server) and UDP 68 (client)"
+  },
+  {
+    "question": "What is the main purpose of DHCP?",
+    "answer": "Automatic assignment and management of IP configurations in a network"
+  },
+  {
+    "question": "Name 3 use cases for DHCP.",
+    "answer": "1) Large offices/schools with many devices, 2) Public Wi-Fi (cafes/hotels), 3) Reserved addresses for printers/servers via DHCP reservation"
+  },
+  {
+    "question": "What are the 4 steps of the DHCP communication flow?",
+    "answer": "DORA: Discover → Offer → Request → Acknowledgement"
+  },
+  {
+    "question": "What is a DHCP-Discover?",
+    "answer": "Client broadcasts to find available DHCP servers (source IP 0.0.0.0, destination 255.255.255.255)"
+  },
+  {
+    "question": "What is a DHCP-Offer?",
+    "answer": "Server responds with an offered IP address, subnet mask, gateway, DNS, and lease time"
+  },
+  {
+    "question": "What is a DHCP-Request?",
+    "answer": "Client accepts one offer and explicitly requests it, declining other offers"
+  },
+  {
+    "question": "What is a DHCP-ACK?",
+    "answer": "Server confirms the lease; client fully initializes its TCP/IP stack"
+  },
+  {
+    "question": "What happens if a DHCP server refuses an address?",
+    "answer": "It sends a DHCPNAK (Not Acknowledged)"
+  },
+  {
+    "question": "What is Lease-Time?",
+    "answer": "The duration for which the IP configuration is valid before it must be renewed"
+  },
+  {
+    "question": "When does a DHCP client first try to renew its lease?",
+    "answer": "After 50% of the lease time has expired"
+  },
+  {
+    "question": "What happens if no DHCP server is available and the lease expires?",
+    "answer": "The client assigns itself an APIPA address from 169.254.0.0/16"
+  },
+  {
+    "question": "What does APIPA stand for?",
+    "answer": "Automatic Private IP Addressing"
+  },
+  {
+    "question": "What is the difference between automatic and manual IP configuration?",
+    "answer": "Automatic = DHCP/APIPA assigns settings; Manual = administrator enters IP, subnet mask, gateway, DNS by hand"
+  },
+  {
+    "question": "What are the advantages of manual (static) IP configuration?",
+    "answer": "Predictability — essential for servers, routers, gateways where other devices rely on fixed addresses"
+  },
+  {
+    "question": "What are the disadvantages of manual IP configuration?",
+    "answer": "Error-prone, requires documentation to avoid duplicate IPs, manual updates when parameters change"
+  },
+  {
+    "question": "What are the advantages of DHCP?",
+    "answer": "Central management, automatic updates, no duplicate IPs, scalable for large networks"
+  },
+  {
+    "question": "What is a DHCP reservation?",
+    "answer": "Mapping a specific MAC address to a fixed IP address so the host always gets the same IP via DHCP"
+  },
+  {
+    "question": "List the typical information assigned by a DHCP server.",
+    "answer": "IP address, subnet mask, default gateway, DNS server, lease time, server ID. Optional: WINS, time server, domain name"
+  },
+  {
+    "question": "What is BOOTP and how does it relate to DHCP?",
+    "answer": "BOOTP is the predecessor of DHCP; DHCP was developed to overcome BOOTP's lack of lease management and dynamic allocation"
+  },
+  {
+    "question": "What is the IPv4LL / APIPA address range?",
+    "answer": "169.254.0.0 to 169.254.255.255 (169.254.0.0/16)"
+  },
+  {
+    "question": "What is the fallback for IPv6 when no DHCP server is available?",
+    "answer": "SLAAC (Stateless Address Autoconfiguration) for link-local addresses"
+  },
+  {
+    "question": "Write the Cisco command to create a DHCP pool for network 192.168.1.0/24 with gateway 192.168.1.1.",
+    "answer": "ip dhcp pool LAN-POOL\\nnetwork 192.168.1.0 255.255.255.0\\ndefault-router 192.168.1.1"
+  },
+  {
+    "question": "Write the Cisco command to exclude addresses 192.168.1.1 to 192.168.1.10 from DHCP.",
+    "answer": "ip dhcp excluded-address 192.168.1.1 192.168.1.10"
+  },
+  {
+    "question": "Write the Cisco command to make a static DHCP reservation for host 192.168.1.50 with MAC 0123.4567.89AB.",
+    "answer": "ip dhcp pool STATIC-SERVER\\nhost 192.168.1.50 255.255.255.0\\nclient-identifier 0123.4567.89AB"
+  },
+  {
+    "question": "Which Windows command shows the current IP configuration including DHCP info?",
+    "answer": "ipconfig /all"
+  },
+  {
+    "question": "True or False: DHCP operates on TCP port 67.",
+    "answer": "False — it uses UDP port 67 (server) and UDP port 68 (client)"
+  },
+  {
+    "question": "True or False: A DHCP client with an expired lease will have no IP address at all.",
+    "answer": "False — it falls back to APIPA (169.254.x.x)"
+  },
+  {
+    "question": "What does DNS stand for?",
+    "answer": "Domain Name System"
+  },
+  {
+    "question": "What is the main purpose of DNS?",
+    "answer": "Resolution of human-readable domain names into IP addresses (and vice versa)"
+  },
+  {
+    "question": "Why is DNS called the 'telephone book of the Internet'?",
+    "answer": "Because it translates names (like www.example.com) into connection information (IP addresses), similar to looking up a phone number by name"
+  },
+  {
+    "question": "Name 3 use cases for DNS.",
+    "answer": "1) Website access (name → IP), 2) Email routing (MX records), 3) Load balancing via multiple A records"
+  },
+  {
+    "question": "Does DNS have a centralized database?",
+    "answer": "No — it is a distributed, hierarchical system with thousands of nameservers worldwide"
+  },
+  {
+    "question": "What is a DNS resolver?",
+    "answer": "A server (or client-side component) that receives DNS queries and resolves them, often by querying other servers recursively"
+  },
+  {
+    "question": "What is the difference between recursive and iterative DNS resolution?",
+    "answer": "Recursive = resolver does all the work and returns the final answer; Iterative = each server only returns a referral to the next authoritative server"
+  },
+  {
+    "question": "What protocol and port does DNS use?",
+    "answer": "UDP and TCP, Port 53"
+  },
+  {
+    "question": "When does DNS use TCP instead of UDP?",
+    "answer": "For zone transfers between primary and secondary DNS servers, and when responses exceed 512 bytes"
+  },
+  {
+    "question": "List all parts of a URL in order.",
+    "answer": "1) Protocol/Schema (https://), 2) Hostname/Domain (www.example.com), 3) Path (/sites/page.htm), 4) Query String (?id=123)"
+  },
+  {
+    "question": "What is the FQDN in a URL?",
+    "answer": "Fully Qualified Domain Name — the complete domain name including hostname, subdomain, SLD, and TLD"
+  },
+  {
+    "question": "Break down the domain hierarchy from right to left for 'www.dse-faq.elektronik-kompendium.de'.",
+    "answer": "Root (.), TLD (de), SLD (elektronik-kompendium), Subdomain (dse-faq), Hostname (www)"
+  },
+  {
+    "question": "What does TLD stand for and give an example?",
+    "answer": "Top-Level Domain — e.g., .de, .com, .at"
+  },
+  {
+    "question": "What does SLD stand for?",
+    "answer": "Second-Level Domain — the name registered under the TLD (e.g., 'elektronik-kompendium' in .de)"
+  },
+  {
+    "question": "What is an A-Record?",
+    "answer": "A DNS record that maps a hostname to an IPv4 address"
+  },
+  {
+    "question": "What is a CNAME-Record?",
+    "answer": "A Canonical Name record — an alias that maps one name to another name (not directly to an IP)"
+  },
+  {
+    "question": "What is the key difference between A and CNAME records?",
+    "answer": "A-Record gives a direct IP; CNAME gives another name that must then be resolved to an IP"
+  },
+  {
+    "question": "Can a CNAME coexist with other records (like MX or NS) for the same name?",
+    "answer": "No — a CNAME cannot coexist with other resource records for the same name"
+  },
+  {
+    "question": "What is DNSSEC?",
+    "answer": "DNS Security Extensions — cryptographic verification of DNS responses to prevent spoofing"
+  },
+  {
+    "question": "Write the Cisco command to enable DNS lookup on a router.",
+    "answer": "ip domain-lookup"
+  },
+  {
+    "question": "Write the Cisco command to set DNS servers on a router.",
+    "answer": "ip name-server 8.8.8.8 1.1.1.1"
+  },
+  {
+    "question": "Write the Cisco command to create a static host entry.",
+    "answer": "ip host meinserver 192.168.1.50"
+  },
+  {
+    "question": "Which Windows command shows the configured DNS server?",
+    "answer": "ipconfig /all"
+  },
+  {
+    "question": "True or False: DNS only uses UDP port 53.",
+    "answer": "False — it uses both UDP and TCP port 53"
+  },
+  {
+    "question": "What is routing?",
+    "answer": "The process of determining the path for a data packet from source to destination across networks"
+  },
+  {
+    "question": "On which OSI layer does a router operate?",
+    "answer": "Layer 3 (Network Layer / Vermittlungsschicht)"
+  },
+  {
+    "question": "What is the main tool a router uses for routing decisions?",
+    "answer": "The routing table"
+  },
+  {
+    "question": "What is static routing?",
+    "answer": "Routes are manually entered by an administrator; no automatic adaptation to topology changes"
+  },
+  {
+    "question": "What is dynamic routing?",
+    "answer": "Routers exchange routing information automatically and adapt to topology changes (failures, new paths)"
+  },
+  {
+    "question": "Name 2 advantages of static routing.",
+    "answer": "1) No protocol overhead, 2) Predictable and secure for small/fixed networks"
+  },
+  {
+    "question": "Name 2 disadvantages of static routing.",
+    "answer": "1) No automatic failover, 2) Manual updates required for every change"
+  },
+  {
+    "question": "Name 2 advantages of dynamic routing.",
+    "answer": "1) Automatic adaptation to failures, 2) Scalable for large/complex networks"
+  },
+  {
+    "question": "Name 2 disadvantages of dynamic routing.",
+    "answer": "1) Protocol overhead (periodic updates consume bandwidth), 2) Higher CPU/memory usage on routers"
+  },
+  {
+    "question": "What does RIP stand for?",
+    "answer": "Routing Information Protocol"
+  },
+  {
+    "question": "What type of routing algorithm does RIP use?",
+    "answer": "Distance-Vector Algorithm (DVA)"
+  },
+  {
+    "question": "What is the metric used by RIP?",
+    "answer": "Hop count"
+  },
+  {
+    "question": "What is the maximum hop count in RIP?",
+    "answer": "15 hops (16 = unreachable / infinite)"
+  },
+  {
+    "question": "How often do RIP routers exchange their routing tables?",
+    "answer": "Every 30 seconds"
+  },
+  {
+    "question": "What is the key improvement of RIPv2 over RIPv1?",
+    "answer": "RIPv2 sends the subnet mask with updates (classless/CIDR support) and uses multicast (224.0.0.9) instead of broadcast"
+  },
+  {
+    "question": "What does 'no auto-summary' do in RIPv2?",
+    "answer": "Disables automatic classful summarization, allowing discontiguous subnets to be routed correctly"
+  },
+  {
+    "question": "Why is RIP unsuitable for large modern networks?",
+    "answer": "It only considers hop count (not bandwidth/delay), has a 15-hop limit, and converges slowly (minutes after a failure)"
+  },
+  {
+    "question": "What are the two main routing algorithm classes?",
+    "answer": "Distance-Vector (DVA) and Link-State (LSA)"
+  },
+  {
+    "question": "Name 2 Distance-Vector protocols.",
+    "answer": "RIP, EIGRP"
+  },
+  {
+    "question": "Name 2 Link-State protocols.",
+    "answer": "OSPF, IS-IS"
+  },
+  {
+    "question": "What information is stored in a routing table?",
+    "answer": "Known network addresses, outgoing interfaces, next-hop addresses, metrics/costs, connection types"
+  },
+  {
+    "question": "In Cisco 'show ip route', what does code 'C' mean?",
+    "answer": "Connected — directly attached network"
+  },
+  {
+    "question": "In Cisco 'show ip route', what does code 'S' mean?",
+    "answer": "Static — manually configured route"
+  },
+  {
+    "question": "In Cisco 'show ip route', what does code 'R' mean?",
+    "answer": "RIP — learned via RIP"
+  },
+  {
+    "question": "Does the Source IP address change when a packet is routed through multiple routers?",
+    "answer": "No — it remains the original sender's IP from end to end"
+  },
+  {
+    "question": "Does the Destination IP address change when a packet is routed through multiple routers?",
+    "answer": "No — it remains the final recipient's IP from end to end"
+  },
+  {
+    "question": "Does the Source MAC address change at each router hop?",
+    "answer": "Yes — it is replaced with the MAC of the router's outgoing interface"
+  },
+  {
+    "question": "Does the Destination MAC address change at each router hop?",
+    "answer": "Yes — it is replaced with the MAC of the next-hop router (or final host on the last segment)"
+  },
+  {
+    "question": "Why do MAC addresses change at every hop but IP addresses do not?",
+    "answer": "IP addresses are end-to-end (Layer 3); MAC addresses are hop-by-hop (Layer 2) and only valid within one broadcast domain"
+  },
+  {
+    "question": "What is the 'Next-Hop' in a routing table entry?",
+    "answer": "The IP address of the next router to which a packet should be forwarded for a given destination network"
+  },
+  {
+    "question": "What is a Default Route (Gateway of Last Resort)?",
+    "answer": "A route with destination 0.0.0.0/0 that matches any packet not matching a more specific route"
+  },
+  {
+    "question": "Write the Cisco command to configure a static route to 192.168.2.0/24 via next-hop 10.0.0.2.",
+    "answer": "ip route 192.168.2.0 255.255.255.0 10.0.0.2"
+  },
+  {
+    "question": "Write the Cisco command to configure a default route via 10.0.0.1.",
+    "answer": "ip route 0.0.0.0 0.0.0.0 10.0.0.1"
+  },
+  {
+    "question": "Write the Cisco commands to enable RIPv2 on a router for networks 192.168.1.0 and 10.0.0.0.",
+    "answer": "router rip\\nversion 2\\nno auto-summary\\nnetwork 192.168.1.0\\nnetwork 10.0.0.0"
+  },
+  {
+    "question": "Write the Cisco command to prevent RIP updates on a LAN interface.",
+    "answer": "passive-interface gi0/0"
+  },
+  {
+    "question": "Write the Cisco command to display the routing table.",
+    "answer": "show ip route"
+  },
+  {
+    "question": "Write the Cisco command to display active routing protocols.",
+    "answer": "show ip protocols"
+  },
+  {
+    "question": "What is the first question in the IP routing algorithm when a packet arrives?",
+    "answer": "'Is the packet for me?' (does destination IP match my own interface?)"
+  },
+  {
+    "question": "What is the second question in the IP routing algorithm?",
+    "answer": "'Is the packet for my subnet?' (destination IP AND subnet mask = my network)"
+  },
+  {
+    "question": "What is the third question in the IP routing algorithm?",
+    "answer": "'Is the route to the destination known?'"
+  },
+  {
+    "question": "What is the fourth question in the IP routing algorithm?",
+    "answer": "'Is a default gateway known?' — if yes, forward there; if no, discard and error"
+  },
+  {
+    "question": "What is the difference between a router's LAN and WAN port from the Kompendium?",
+    "answer": "LAN = local network with private IPs; WAN = public network / Internet connection"
+  },
+  {
+    "question": "True or False: A switch can route packets between different IP subnets.",
+    "answer": "False — a switch operates at Layer 2; routing between subnets requires a Layer-3 device (router or Layer-3 switch)"
+  },
+  {
+    "question": "True or False: RIP considers bandwidth when choosing the best path.",
+    "answer": "False — RIP only uses hop count as its metric"
+  },
+  {
+    "question": "True or False: In dynamic routing, routers exchange routing tables only when a link fails.",
+    "answer": "False — RIP exchanges tables every 30 seconds regardless; link-state protocols use triggered updates plus periodic refreshes"
+  }
+]
