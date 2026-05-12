@@ -2,6 +2,67 @@ let flashcards = [];
 let currentIndex = 0;
 let isFlipped = false;
 
+const REPO_OWNER = 'lpuehringerstudent';
+const REPO_NAME = 'StudyingFlashcards';
+const FLASHCARDS_DIR = 'flashcards';
+
+// Fallback list in case GitHub API fails
+const FALLBACK_FILES = [
+    'flashcards/Banm3SecondTest.json',
+    'flashcards/forensics.json',
+    'flashcards/networkSystems.json'
+];
+
+async function populateRepoFiles() {
+    const select = document.getElementById('repoFileSelect');
+    
+    try {
+        const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FLASHCARDS_DIR}`);
+        if (!response.ok) {
+            throw new Error('GitHub API error: ' + response.status);
+        }
+        
+        const files = await response.json();
+        const jsonFiles = files
+            .filter(file => file.name.endsWith('.json'))
+            .map(file => ({
+                name: file.name,
+                path: `${FLASHCARDS_DIR}/${file.name}`
+            }));
+        
+        // Clear existing options except the first placeholder
+        while (select.options.length > 1) {
+            select.remove(1);
+        }
+        
+        // Add fetched files
+        jsonFiles.forEach(file => {
+            const option = document.createElement('option');
+            option.value = file.path;
+            option.textContent = file.name;
+            select.appendChild(option);
+        });
+    } catch (e) {
+        console.warn('Failed to fetch file list from GitHub API, using fallback:', e);
+        
+        // Clear existing options except the first placeholder
+        while (select.options.length > 1) {
+            select.remove(1);
+        }
+        
+        // Add fallback files
+        FALLBACK_FILES.forEach(path => {
+            const option = document.createElement('option');
+            option.value = path;
+            option.textContent = path.split('/').pop();
+            select.appendChild(option);
+        });
+    }
+}
+
+// Populate dropdown when page loads
+document.addEventListener('DOMContentLoaded', populateRepoFiles);
+
 document.getElementById('fileInput').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (!file) return;
